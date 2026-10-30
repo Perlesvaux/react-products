@@ -1,10 +1,77 @@
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { getProductById } from '../services/productService'
 
 export default function ProductDetail(){
-  return (
-  <section>
-      <h1>Detalle del Producto</h1>
-      <p>Aquí se mostrará la información de un producto específico</p>
 
-    </section>
+  const { id } = useParams()
+  const [product, setProduct] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+
+  useEffect(()=> {
+    async function loadProduct(){
+
+      try {
+
+        const data = await getProductById(id)
+        setProduct(data)
+        
+      } catch (error) {
+
+        setError(error.message)
+
+      } finally {
+        setLoading(false)
+
+      }
+
+    }
+
+    loadProduct()
+
+  }, [id])
+
+
+  if (loading) {
+    return <p>Cargando producto... </p>
+  }
+
+  if (error) {
+    return <p>{error}</p>
+  }
+
+
+  return (
+  <section className="product-detail">
+      <Link to="/products">
+        ← Regresar
+      </Link>
+      <h1> {product.title} </h1>
+
+      <img 
+        src={product.thumbnail}
+        alt={product.title}
+      />
+
+      <p> {product.description} </p>
+
+      <p>
+        <strong> Categoria: </strong> {product.category}
+      </p>
+
+      <p> 
+        <strong> Precio: </strong> {product.price}
+      </p>
+
+      <p> 
+        <strong> Stock: </strong> {product.stock}
+      </p>
+
+      <p> 
+        <strong> Rating: </strong> {product.rating}
+      </p>
+
+  </section>
   )
 }
