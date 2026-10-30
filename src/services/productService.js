@@ -3,7 +3,7 @@ const API_URL = "https://dummyjson.com/products";
 export default API_URL;
 
 // Obtener productos
-export async function getProducts(limit=2, skip=0){
+export async function getProducts(limit=12, skip=0){
   const response = await fetch(
     `${API_URL}?limit=${limit}&skip=${skip}`
   )
