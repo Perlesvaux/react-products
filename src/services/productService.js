@@ -29,7 +29,7 @@ export async function getProductById(id) {
 // Buscar productos 
 export async function searchProducts(query) {
   const response = await fetch(
-    `${API_URL}/search?=q${encodeURIComponent(query)}`
+    `${API_URL}/search?q=${encodeURIComponent(query)}`
   )
 
   if (!response.ok) {

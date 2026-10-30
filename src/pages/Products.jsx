@@ -1,4 +1,8 @@
-import { getProducts, deleteProduct } from '../services/productService'
+import { 
+  getProducts, 
+  deleteProduct,
+  searchProducts
+} from '../services/productService'
 import ProductList from "../components/ProductList"
 import { useEffect, useState } from "react"
 
@@ -8,6 +12,7 @@ export default function Products(){
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [search, setSearch] = useState("")
 
   useEffect(()=>{
     loadProducts()
@@ -38,10 +43,37 @@ export default function Products(){
       setProducts(
         products.filter((product)=> product.id !== id )
       )
-      
+
     } catch (error) {
       setError(error.message)
-      
+
+    }
+  }
+
+
+  async function handleSearch(event){
+    event.preventDefault()
+
+    try {
+
+      setLoading(true)
+
+      if (search.trim()==="") {
+        await loadProducts()
+        return 
+      }
+
+      const data = await searchProducts(search)
+
+      setProducts(data.products)
+
+    } catch (error) {
+
+      setError(error.message)
+
+    } finally {
+
+      setLoading(false)
     }
   }
 
@@ -55,18 +87,33 @@ export default function Products(){
   if (error) return <p>{error}</p>
 
 
+
+
+
+
+
   return (
-  <section>
-      <section> 
-        <h1> Productos </h1>
+    <section> 
+      <h1> Productos </h1>
 
-        <ProductList 
-          products={products}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
+      <form onSubmit={handleSearch} className="search-form">
+        <input 
+          type="text"
+          placeholder="Buscar producto..."
+          value={search}
+          onChange={(event)=> setSearch(event.target.value)}
         />
-      </section>
 
+        <button type="submit"> 
+          Buscar 
+        </button>
+      </form>
+
+      <ProductList 
+        products={products}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
     </section>
   )
 }
