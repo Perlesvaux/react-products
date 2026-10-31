@@ -193,7 +193,15 @@ Al finalizar el laboratorio, el estudiante deberá ser capaz de:
 
 ## Observaciones
 
-Espacio para registrar dificultades encontradas, soluciones implementadas, mejoras realizadas o aprendizajes obtenidos durante el desarrollo del laboratorio.
+¡Muy buen tutorial! He usado React + Vite + React-router con anterioridad, y aun asi, este tutorial me enseño cosas nuevas.
+
+Me tome la libertad de publicar la app mediante la dependencia gh-pages.
+
+Para que funcionara correctamente, tuve que:
+
+- Añadir la key `base:/<Nombre del repositorio>/` al vite.config.js 
+
+- Añadir esta prop al BrowserRouter en main.jsx `basename={import.meta.env.BASE_URL}`
 
 ---
 
