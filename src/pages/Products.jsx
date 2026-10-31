@@ -5,6 +5,7 @@ import {
   getCategories,
   getProductsByCategory,
   createProduct,
+  updateProduct,
 } from '../services/productService'
 import ProductList from "../components/ProductList"
 import { useEffect, useState } from "react"
@@ -18,6 +19,7 @@ export default function Products(){
   const [search, setSearch] = useState("")
   const [categories, setCategories] = useState([])
   const [category, setCategory] = useState("")
+  const [editingId, setEditingId] = useState(null)
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
   const limit = 12
@@ -195,6 +197,14 @@ export default function Products(){
 
 
   async function handleEdit (product) {
+    setEditingId(product.id)
+
+    setForm({
+      title: product.title,
+      price: product.price, 
+      description: product.description
+    })
+
     console.log("Editar:", product)
   }
 
