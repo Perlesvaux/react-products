@@ -21,6 +21,11 @@ export default function Products(){
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
   const limit = 12
+  const [form, setForm] = useState({
+    title:"",
+    price:"",
+    description:"",
+  })
 
   useEffect(()=>{
     loadProducts()
@@ -152,6 +157,43 @@ export default function Products(){
   }
 
 
+  function handleChange(event){
+    const {name, value} = event.target
+
+    setForm({
+      ...form, [ name ]:value
+    })
+
+  }
+
+  async function handleCreate(event) {
+    event.preventDefault()
+
+    try {
+      const newProduct = await createProduct({
+        ...form, 
+        price: Number(form.price),
+      })
+
+      setProducts([
+        newProduct,
+        ...products,
+      ])
+
+      setForm({
+        title:"",
+        price:"",
+        description:"",
+      })
+
+    } catch (error) {
+      setError(error.message)
+      
+    }
+  }
+
+
+
   async function handleEdit (product) {
     console.log("Editar:", product)
   }
@@ -206,6 +248,39 @@ export default function Products(){
           )
         })}
       </select>
+
+
+      <form onSubmit={handleCreate} className="product-form">
+        <input 
+          type="text"
+          name="title"
+          placeholder="Nombre"
+          value={form.title}
+          onChange={handleChange}
+        />
+
+        <input
+          type="number"
+          name="price"
+          placeholder="Precio"
+          value={form.price}
+          onChange={handleChange}
+          required
+        />
+
+        <textarea 
+          name="description"
+          placeholder="Descripción"
+          value={form.description}
+          onChange={handleChange}
+        />
+
+        <button type="submit">
+          Guardar
+        </button>
+
+
+      </form>
 
 
 
