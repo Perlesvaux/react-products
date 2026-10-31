@@ -38,13 +38,12 @@ export default function Products(){
     }
   }
 
+
   async function loadProducts(pageNumber = 1) {
     try {
       setLoading(true)
       const skip = (pageNumber - 1) * limit
       const data = await getProducts(limit, skip)
-      //setError("")
-      //
 
       setProducts(data.products)
       setTotal(data.total)
