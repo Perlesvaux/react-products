@@ -195,7 +195,7 @@ Al finalizar el laboratorio, el estudiante deberá ser capaz de:
 
 ¡Muy buen tutorial! He usado React + Vite + React-router con anterioridad, y aun asi, este tutorial me enseño cosas nuevas.
 
-Me tome la libertad de publicar la app mediante la dependencia gh-pages.
+Me tome la libertad de **[publicar la app](https://perlesvaux.github.io/react-products/)** mediante la dependencia gh-pages.
 
 Para que funcionara correctamente, tuve que:
 
