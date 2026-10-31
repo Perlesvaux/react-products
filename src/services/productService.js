@@ -93,7 +93,7 @@ export async function updateProduct(id, product){
     method: 'PUT',
 
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type":"application/json",
     },
 
     body: JSON.stringify(product)

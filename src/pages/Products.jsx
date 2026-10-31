@@ -86,8 +86,6 @@ export default function Products(){
     }
   }
 
-
-
   async function handleDelete (id) {
     try {
       await deleteProduct(id)
@@ -220,10 +218,13 @@ export default function Products(){
           price: Number(form.price)
         })
 
-      setProducts((product)=>
-        product.id === editingId
-        ? {...product, ...updated}
-        : product
+      setProducts(
+        products.map(
+          (product)=>
+            product.id === editingId
+              ? {...product, ...updated}
+              : product
+        )
       )
 
       setEditingId(null)
