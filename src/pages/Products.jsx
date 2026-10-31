@@ -4,6 +4,7 @@ import {
   searchProducts,
   getCategories,
   getProductsByCategory,
+  createProduct,
 } from '../services/productService'
 import ProductList from "../components/ProductList"
 import { useEffect, useState } from "react"
@@ -56,6 +57,28 @@ export default function Products(){
       setLoading(false)
     }
   }
+
+
+  function nextPage(){
+    const totalPages = Math.ceil(total/limit);
+
+    if (page < totalPages) {
+      const newPage = page + 1
+
+      setPage(newPage)
+      loadProducts(newPage)
+    }
+  }
+
+  function previousPage(){
+    if(page>1) {
+      const newPage = page -1
+
+      setPage(newPage)
+      loadProducts(newPage)
+    }
+  }
+
 
 
   async function handleDelete (id) {
@@ -191,6 +214,30 @@ export default function Products(){
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
+
+      <div className="pagination">
+        <button
+          onClick={previousPage}
+          disabled={page === 1}
+        >
+        Anterior
+        </button>
+
+        <span>
+          Página {page}
+        </span>
+
+        <button
+          onClick={nextPage}
+          disabled={ page >= Math.ceil(total/limit)}
+        > 
+        Siguiente
+        </button>
+      </div>
+
+
+
+
     </section>
   )
 }
