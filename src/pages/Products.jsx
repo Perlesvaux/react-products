@@ -208,6 +208,39 @@ export default function Products(){
     console.log("Editar:", product)
   }
 
+
+  async function handleUpdate(event) {
+    event.preventDefault();
+
+    try {
+      const updated = await updateProduct(
+        editingId, 
+        {
+          ...form,  
+          price: Number(form.price)
+        })
+
+      setProducts((product)=>
+        product.id === editingId
+        ? {...product, ...updated}
+        : product
+      )
+
+      setEditingId(null)
+
+      setForm({
+        title: "",
+        price: "",
+        description: ""
+      })
+
+    } catch(error) { 
+      setError(error.message)
+    }
+  }
+
+
+
   if (loading) return <p>Cargando productos...</p>
 
   if (error) return <p>{error}</p>
@@ -260,7 +293,7 @@ export default function Products(){
       </select>
 
 
-      <form onSubmit={handleCreate} className="product-form">
+      <form onSubmit={editingId? handleUpdate : handleCreate} className="product-form">
         <input 
           type="text"
           name="title"
@@ -286,7 +319,10 @@ export default function Products(){
         />
 
         <button type="submit">
-          Guardar
+          {editingId 
+            ? "Actualizar"
+            : "Guardar"
+          }
         </button>
 
 
