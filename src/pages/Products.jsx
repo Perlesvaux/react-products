@@ -1,7 +1,9 @@
 import { 
   getProducts, 
   deleteProduct,
-  searchProducts
+  searchProducts,
+  getCategories,
+  getProductsByCategory,
 } from '../services/productService'
 import ProductList from "../components/ProductList"
 import { useEffect, useState } from "react"
@@ -13,19 +15,39 @@ export default function Products(){
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [search, setSearch] = useState("")
+  const [categories, setCategories] = useState([])
+  const [category, setCategory] = useState("")
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const limit = 12
 
   useEffect(()=>{
     loadProducts()
+    loadCategories()
   },[])
 
-  async function loadProducts() {
+  async function loadCategories(){
+    try {
+      const data = await getCategories()
+
+      setCategories(data)
+      
+    } catch (error) {
+      console.error(error)
+      
+    }
+  }
+
+  async function loadProducts(pageNumber = 1) {
     try {
       setLoading(true)
-      setError("")
-
-      const data = await getProducts()
+      const skip = (pageNumber - 1) * limit
+      const data = await getProducts(limit, skip)
+      //setError("")
+      //
 
       setProducts(data.products)
+      setTotal(data.total)
     } catch (error) {
 
       setError(error.message)
@@ -78,6 +100,36 @@ export default function Products(){
   }
 
 
+
+
+
+
+  async function handleCategory(event){
+    const selectedCategory = event.target.value 
+
+    setCategory(selectedCategory)
+
+    try {
+      setLoading(true)
+
+      if (selectedCategory === "") {
+        await loadProducts()
+        return
+      }
+
+      const data = await getProductsByCategory(selectedCategory)
+
+      setProducts(data.products)
+      
+    } catch (error) {
+      setError(error.message)
+      
+    } finally {
+      setLoading(false)
+    }
+  }
+
+
   async function handleEdit (product) {
     console.log("Editar:", product)
   }
@@ -108,6 +160,32 @@ export default function Products(){
           Buscar 
         </button>
       </form>
+
+
+      <select
+        value={category}
+        onChange={handleCategory}
+      >
+        <option value="">
+          Todas las categorías
+        </option>
+
+        {categories.map((item)=>{
+          const value = item.slug ?? item;
+          const label = item.name ?? item;
+
+          return (
+            <option
+              key={value}
+              value={value}
+            >
+              {label}
+            </option>
+          )
+        })}
+      </select>
+
+
 
       <ProductList 
         products={products}
