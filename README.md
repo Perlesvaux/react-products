@@ -33,6 +33,8 @@ El propósito principal es comprender cómo una aplicación frontend puede comun
 | Tutor | VLADIMIR MATE |
 | Fecha de Entrega | 31 OCT 2026 |
 
+**[Link al sitio](https://perlesvaux.github.io/react-products/)**
+
 ---
 
 ## Objetivo del Laboratorio
