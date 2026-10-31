@@ -10,7 +10,6 @@ import {
 import ProductList from "../components/ProductList"
 import { useEffect, useState } from "react"
 
-
 export default function Products(){
 
   const [products, setProducts] = useState([])
@@ -46,7 +45,6 @@ export default function Products(){
     }
   }
 
-
   async function loadProducts(pageNumber = 1) {
     try {
       setLoading(true)
@@ -64,7 +62,6 @@ export default function Products(){
       setLoading(false)
     }
   }
-
 
   function nextPage(){
     const totalPages = Math.ceil(total/limit);
@@ -99,7 +96,6 @@ export default function Products(){
     }
   }
 
-
   async function handleSearch(event){
     event.preventDefault()
 
@@ -125,11 +121,6 @@ export default function Products(){
       setLoading(false)
     }
   }
-
-
-
-
-
 
   async function handleCategory(event){
     const selectedCategory = event.target.value 
@@ -166,6 +157,7 @@ export default function Products(){
 
   }
 
+
   async function handleCreate(event) {
     event.preventDefault()
 
@@ -191,8 +183,6 @@ export default function Products(){
       
     }
   }
-
-
 
   async function handleEdit (product) {
     setEditingId(product.id)
@@ -245,10 +235,6 @@ export default function Products(){
   if (loading) return <p>Cargando productos...</p>
 
   if (error) return <p>{error}</p>
-
-
-
-
 
 
 
